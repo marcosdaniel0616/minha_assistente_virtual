@@ -1,6 +1,7 @@
 import speech_recognition as sr
 import pyttsx3
 import datetime
+import wikipedia
 
 audio = sr.Recognizer()
 maquina = pyttsx3.init()
@@ -26,10 +27,16 @@ def executa_comando():
 def comando_voz_usuario():
     comando = executa_comando()
     match comando:
-        case 'que horas são' | 'que horas tem' | 'horas':
+        case 'que horas são' | 'que horas tem' | 'horas' | 'hora':
             hora = datetime.datetime.now().strftime('%H:%M')
             maquina.say(f'Agora são {hora}')
             maquina.runAndWait()
 
+        case wiki if 'procure por' or 'pesquise por' in comando:
+            procurar = comando.replace('procure por', '').replace('pesquise por', '')
+            wikipedia.set_lang('pt')
+            resultado = wikipedia.summary(procurar, 2)
+            maquina.say(resultado)
+            maquina.runAndWait()
 
 comando_voz_usuario()
