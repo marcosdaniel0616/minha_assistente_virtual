@@ -53,5 +53,3 @@ def comando_voz_usuario():
 
 
 comando_voz_usuario()
-
-#webbrowser.open(https://www.youtube.com/watch?v=36RIoJeV95M)
