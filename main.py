@@ -32,8 +32,9 @@ def comando_voz_usuario():
             maquina.say(f'Agora são {hora}')
             maquina.runAndWait()
 
-        case wiki if 'procure por' or 'pesquise por' in comando:
-            procurar = comando.replace('procure por', '').replace('pesquise por', '')
+        case wiki if 'o que é' in comando:
+            print(comando)
+            procurar = comando.replace('procure por', '').replace('pesquise por', '').strip()
             wikipedia.set_lang('pt')
             resultado = wikipedia.summary(procurar, 2)
             maquina.say(resultado)
