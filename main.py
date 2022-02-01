@@ -2,6 +2,9 @@ import speech_recognition as sr
 import pyttsx3
 import datetime
 import wikipedia
+import urllib.request
+import re
+import webbrowser
 
 audio = sr.Recognizer()
 maquina = pyttsx3.init()
@@ -33,11 +36,22 @@ def comando_voz_usuario():
             maquina.runAndWait()
 
         case wiki if 'o que é' in comando:
-            print(comando)
             procurar = comando.replace('procure por', '').replace('pesquise por', '').strip()
             wikipedia.set_lang('pt')
             resultado = wikipedia.summary(procurar, 2)
             maquina.say(resultado)
             maquina.runAndWait()
 
+        case ytb if 'tocar' or 'toque' in comando:
+            video = comando.replace('tocar ', '').replace('toque ', '').replace(' ', '+').strip()
+            html = urllib.request.urlopen(f"https://www.youtube.com/results?search_query=" + video)
+            video_escolhido = re.findall(r"watch\?v=(\S{11})", html.read().decode())
+            link_video = "https://www.youtube.com/watch?v=" + video_escolhido[0]
+            webbrowser.open(str(link_video))
+            maquina.say('Tocando musica')
+            maquina.runAndWait()
+
+
 comando_voz_usuario()
+
+#webbrowser.open(https://www.youtube.com/watch?v=36RIoJeV95M)
