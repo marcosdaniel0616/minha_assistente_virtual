@@ -42,7 +42,7 @@ def comando_voz_usuario():
             maquina.say(resultado)
             maquina.runAndWait()
 
-        case ytb if 'tocar' or 'toque' in comando:
+        case ytb if 'tocar' in comando or 'toque' in comando:
             video = comando.replace('tocar ', '').replace('toque ', '').replace(' ', '+').strip()
             html = urllib.request.urlopen(f"https://www.youtube.com/results?search_query=" + video)
             video_escolhido = re.findall(r"watch\?v=(\S{11})", html.read().decode())
