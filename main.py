@@ -5,6 +5,9 @@ import wikipedia
 import urllib.request
 import re
 import webbrowser
+import os
+import pyautogui
+from time import sleep
 
 audio = sr.Recognizer()
 maquina = pyttsx3.init()
@@ -19,8 +22,10 @@ def executa_comando():
             comando = audio.recognize_google(voz, language='pt-BR')
             comando = comando.lower()
             if 'assistente' in comando:
-                comando = comando.replace('assistente', '').strip()
+                comando = comando.replace('assistente ', '').strip()
                 maquina.runAndWait()
+            else:
+                executa_comando()
     except:
         print('Microfone não está ok')
 
@@ -50,6 +55,21 @@ def comando_voz_usuario():
             webbrowser.open(str(link_video))
             maquina.say('Tocando musica')
             maquina.runAndWait()
+
+        case programas if 'abrir' in comando or 'abra' in comando:
+            programa = comando.replace('abrir ', '').replace('abra ', '').strip()
+            try:
+                os.startfile(programa)
+
+            except:
+                pyautogui.press('win')
+                sleep(1)
+                pyautogui.write(programa)
+                sleep(1)
+                pyautogui.press('enter')
+            finally:
+                maquina.say(f'abrindo {programa}')
+                maquina.runAndWait()
 
 
 comando_voz_usuario()
